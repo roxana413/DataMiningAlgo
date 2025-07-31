@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmi Data Mining - Ghid Complet</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --bg-color: #ecf0f1;
+            --card-bg: #ffffff;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+        }
+
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab {
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tab:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .task-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .task-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .algorithm-card {
+            background: var(--card-bg);
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .algorithm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .algorithm-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .algorithm-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .algorithm-card.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .algorithm-content {
+            padding: 2rem;
+            display: none;
+        }
+
+        .algorithm-card.expanded .algorithm-content {
+            display: block;
+        }
+
+        .algorithm-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .algorithm-section h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 1rem;
+        }
+
+        .algorithm-section p, .algorithm-section li {
+            margin-bottom: 0.5rem;
+            text-align: justify;
+        }
+
+        .algorithm-section ul {
+            padding-left: 1.5rem;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .code-snippet {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .pros, .cons {
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .pros {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .cons {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 Algoritmi Data Mining</h1>
+        <p>Ghid complet pentru algoritmii de analiză a datelor</p>
+    </div>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTask('task1')">Task 1: Analiza Exploratorie</button>
+            <button class="nav-tab" onclick="showTask('task2')">Task 2: Association Rules</button>
+            <button class="nav-tab" onclick="showTask('task3')">Task 3: Clasificare Supervizată</button>
+            <button class="nav-tab" onclick="showTask('task4')">Task 4: Clustering</button>
+            <button class="nav-tab" onclick="showTask('task5')">Task 5: Outlier Detection</button>
+        </div>
+
+        <!-- Task 1: Analiza Exploratorie -->
+        <div id="task1" class="task-content active">
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>📊 Analiza Univariată</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Analiza univariată studiază o singură variabilă la un moment dat, oferind o înțelegere de bază a distribuției și caracteristicilor datelor.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Metrici Principale</h4>
+                        <ul>
+                            <li><strong>Tendința centrală:</strong> medie, mediană, modul</li>
+                            <li><strong>Împrăștierea:</strong> deviația standard, varianța, intervalul</li>
+                            <li><strong>Forma distribuției:</strong> skewness (asimetria), kurtosis (aplatizarea)</li>
+                            <li><strong>Pentru date categoriale:</strong> frecvențe absolute și relative</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Tip:</strong> Skewness pozitiv indică o coadă lungă spre dreapta, iar skewness negativ o coadă lungă spre stânga.
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Tehnici de Vizualizare</h4>
+                        <ul>
+                            <li><strong>Histograme:</strong> arată distribuția frecvențelor</li>
+                            <li><strong>Box plots:</strong> evidențiază quartilele și valorile aberante</li>
+                            <li><strong>Grafice de densitate:</strong> versiunea netedă a histogramelor</li>
+                            <li><strong>Q-Q plots:</strong> compară distribuția cu una teoretică</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🔗 Analiza Bivariată/Multivariată</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Studiază relațiile dintre două sau mai multe variabile pentru a identifica dependențe, corelații și modele complexe în date.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Tehnici de Analiză</h4>
+                        <ul>
+                            <li><strong>Corelația Pearson:</strong> măsoară relația liniară dintre variabile continue</li>
+                            <li><strong>Corelația Spearman:</strong> măsoară relația monotonă</li>
+                            <li><strong>Testul Chi-pătrat:</strong> testează independența variabilelor categoriale</li>
+                            <li><strong>ANOVA:</strong> compară mediile mai multor grupuri</li>
+                        </ul>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Vizualizări Avansate</h4>
+                        <ul>
+                            <li><strong>Scatter plots:</strong> relația dintre două variabile continue</li>
+                            <li><strong>t-SNE:</strong> reducere de dimensionalitate non-liniară</li>
+                            <li><strong>UMAP:</strong> mapare uniformă și aproximare</li>
+                            <li><strong>PCA plots:</strong> proiecție pe componente principale</li>
+                            <li><strong>Correlograms:</strong> matrici de corelație vizualizate</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Observație:</strong> t-SNE este excelent pentru vizualizare dar poate distorsiona distanțele globale. UMAP păstrează mai bine structura globală.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task 2: Association Rules -->
+        <div id="task2" class="task-content">
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🛒 Algoritmul Apriori</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Apriori este un algoritm clasic pentru extragerea regulilor de asociere, bazat pe principiul că subseturile unui itemset frecvent sunt de asemenea frecvente.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Concepte Cheie</h4>
+                        <ul>
+                            <li><strong>Suport:</strong> frecvența cu care apare un itemset în dataset</li>
+                            <li><strong>Confidență:</strong> probabilitatea ca B să apară când A este prezent</li>
+                            <li><strong>Lift:</strong> măsoară cât de mult mai probabil este B când A este prezent</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Simplu de înțeles și implementat</li>
+                                <li>Garantează găsirea tuturor regulilor</li>
+                                <li>Funcționează bine pe seturi mici</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Foarte lent pe seturi mari</li>
+                                <li>Generează multe itemseturi candidate</li>
+                                <li>Necesită multiple treceri prin date</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🌳 Algoritmul FP-Growth</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>FP-Growth (Frequent Pattern Growth) este o îmbunătățire semnificativă față de Apriori, utilizând o structură de date specială numită FP-tree.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Cum Funcționează</h4>
+                        <ul>
+                            <li>Construiește un FP-tree comprimate din dataset</li>
+                            <li>Extrage pattern-urile frecvente din arbore</li>
+                            <li>Nu generează itemseturi candidate</li>
+                            <li>Necesită doar două treceri prin date</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Performance:</strong> FP-Growth este de obicei de 10-100 de ori mai rapid decât Apriori pe seturi mari de date.
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Mult mai rapid decât Apriori</li>
+                                <li>Nu generează candidate</li>
+                                <li>Folosește memoria eficient</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Mai complex de implementat</li>
+                                <li>Poate consuma multă memorie</li>
+                                <li>Dificil de paralelizat</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task 3: Clasificare Supervizată -->
+        <div id="task3" class="task-content">
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🌳 Arbori de Decizie</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Arborii de decizie sunt modele predictive care folosesc o structură arborescentă pentru a lua decizii bazate pe valorile atributelor.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Criterii de Împărțire</h4>
+                        <ul>
+                            <li><strong>Gini Impurity:</strong> măsoară impuritatea unui nod</li>
+                            <li><strong>Information Gain:</strong> bazat pe entropie</li>
+                            <li><strong>Chi-square:</strong> pentru variabile categoriale</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Ușor de interpretat și vizualizat</li>
+                                <li>Nu necesită preprocessing</li>
+                                <li>Gestionează date mixte</li>
+                                <li>Identifică atribute importante</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Tendință de overfitting</li>
+                                <li>Instabil la schimbări mici</li>
+                                <li>Bias către atribute cu multe valori</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🤖 k-Nearest Neighbors (kNN)</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>kNN este un algoritm de clasificare "lazy" care clasifică un punct bazat pe clasa majoritară dintre cei k vecini cei mai apropiați.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Parametri Cheie</h4>
+                        <ul>
+                            <li><strong>k:</strong> numărul de vecini considerați</li>
+                            <li><strong>Distanța:</strong> Euclidian, Manhattan, Hamming</li>
+                            <li><strong>Ponderarea:</strong> uniform sau bazat pe distanță</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Alegerea k:</strong> k mic → sensibil la zgomot; k mare → pierde detalii locale. De obicei se folosește k impar pentru a evita egalitățile.
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🧠 Naive Bayes</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Naive Bayes este un clasificator probabilistic bazat pe teorema lui Bayes, cu asumpția de independență "naivă" între atribute.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Variante</h4>
+                        <ul>
+                            <li><strong>Gaussian NB:</strong> pentru atribute continue</li>
+                            <li><strong>Multinomial NB:</strong> pentru date discrete (text)</li>
+                            <li><strong>Bernoulli NB:</strong> pentru atribute binare</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Foarte rapid și eficient</li>
+                                <li>Funcționează bine cu date mici</li>
+                                <li>Nu este sensibil la atribute irelevante</li>
+                                <li>Excelent pentru clasificarea textului</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Asumpția de independență</li>
+                                <li>Probleme cu atribute corelate</li>
+                                <li>Necesită smoothing pentru date sparse</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🔗 Rețele Neuronale</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Rețelele neuronale sunt modele inspirate de creierul uman, capabile să învețe relații complexe non-liniare din date.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Componente</h4>
+                        <ul>
+                            <li><strong>Neuroni:</strong> unități de procesare</li>
+                            <li><strong>Straturi:</strong> input, hidden, output</li>
+                            <li><strong>Funcții de activare:</strong> sigmoid, ReLU, tanh</li>
+                            <li><strong>Backpropagation:</strong> algoritmul de antrenare</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Deep Learning:</strong> Rețelele cu multe straturi ascunse (>3) sunt considerate "deep" și pot învăța reprezentări foarte complexe.
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>📐 Support Vector Machines (SVM)</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>SVM găsește hiperplanul optimal care separă clasele cu marja maximă, putând funcționa și în spații de dimensiuni mari prin kernel trick.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Kerneluri Comune</h4>
+                        <ul>
+                            <li><strong>Linear:</strong> pentru date separabile liniar</li>
+                            <li><strong>RBF (Gaussian):</strong> cel mai popular pentru date non-liniare</li>
+                            <li><strong>Polynomial:</strong> pentru relații polinomiale</li>
+                            <li><strong>Sigmoid:</strong> asemănător cu rețelele neuronale</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Eficient în spații mari</li>
+                                <li>Folosește memoria eficient</li>
+                                <li>Versatil prin kerneluri</li>
+                                <li>Funcționează bine cu date mici</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Lent pe seturi mari</li>
+                                <li>Sensibil la scaling</li>
+                                <li>Nu oferă probabilități direct</li>
+                                <li>Greu de interpretat</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🌲 Random Forest & Bagging</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Random Forest combină mulți arbori de decizie antrenați pe subseturi diferite de date și atribute, reducând overfitting-ul prin averaging.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Tehnici Bagging</h4>
+                        <ul>
+                            <li><strong>Bootstrap Sampling:</strong> antrenare pe samples cu înlocuire</li>
+                            <li><strong>Feature Randomness:</strong> selecție aleatorie de atribute</li>
+                            <li><strong>Extra Trees:</strong> împărțiri complet aleatoare</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Out-of-Bag Error:</strong> Random Forest poate estima acuratețea fără un set de validare separat folosind eșantioanele care nu au fost folosite în antrenare.
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🚀 XGBoost & Boosting</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>XGBoost este o implementare optimizată a Gradient Boosting care antrenează modele secvențial, fiecare corectând erorile precedentului.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Caracteristici XGBoost</h4>
+                        <ul>
+                            <li><strong>Regularizare:</strong> L1 și L2 pentru a preveni overfitting</li>
+                            <li><strong>Paralelizare:</strong> antrenare rapidă</li>
+                            <li><strong>Cross Validation:</strong> integrat</li>
+                            <li><strong>Missing Values:</strong> handling automat</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Performanțe excelente</li>
+                                <li>Câștigător în multe competiții</li>
+                                <li>Robustisă la outliers</li>
+                                <li>Feature importance built-in</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Mulți hyperparametri</li>
+                                <li>Poate face overfitting</li>
+                                <li>Computațional intensiv</li>
+                                <li>Greu de interpretat</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task 4: Clustering -->
+        <div id="task4" class="task-content">
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>⭕ K-Means</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>K-Means împarte datele în k clustere prin minimizarea sumei pătratelor distanțelor către centroizii clusterelor.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Algoritmul</h4>
+                        <ul>
+                            <li>Inițializează k centroizi aleator</li>
+                            <li>Asignează fiecare punct la cel mai apropiat centroid</li>
+                            <li>Recalculează centroizii ca mijloacele clusterelor</li>
+                            <li>Repetă până la convergență</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Metoda Elbow:</strong> Alegeți k unde reducerea inerției începe să se niveleze, formând un "cot" pe grafic.
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Simplu și rapid</li>
+                                <li>Funcționează bine cu clustere sferice</li>
+                                <li>Garantează convergența</li>
+                                <li>Scalabil pentru seturi mari</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Trebuie să specifici k în avans</li>
+                                <li>Sensibil la inițializare</li>
+                                <li>Probleme cu clustere non-sferice</li>
+                                <li>Sensibil la outliers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🔗 Clustering Ierarhic</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Clustering-ul ierarhic creează o ierarhie de clustere reprezentată ca dendrogram, fără a necesita specificarea numărului de clustere în avans.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Metode de Linkage</h4>
+                        <ul>
+                            <li><strong>Single Link:</strong> distanța minimă între puncte din clustere diferite</li>
+                            <li><strong>Complete Link:</strong> distanța maximă între puncte</li>
+                            <li><strong>Average Link:</strong> distanța medie între toate perechile</li>
+                            <li><strong>Ward:</strong> minimizează varianța intra-cluster</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Dendrogram:</strong> Vizualizează procesul de îmbinare și ajută la alegerea numărului optim de clustere prin "tăierea" arborelui.
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🎯 DBSCAN</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>DBSCAN (Density-Based Spatial Clustering) identifică clustere de densitate arbitrară și poate detecta outliers ca zgomot.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Parametri</h4>
+                        <ul>
+                            <li><strong>eps (ε):</strong> raza vecinătății</li>
+                            <li><strong>min_samples:</strong> numărul minim de puncte pentru a forma un cluster</li>
+                        </ul>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Tipuri de Puncte</h4>
+                        <ul>
+                            <li><strong>Core points:</strong> au cel puțin min_samples vecini în raza eps</li>
+                            <li><strong>Border points:</strong> în vecinătatea unui core point</li>
+                            <li><strong>Noise points:</strong> nici core, nici border (outliers)</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Nu necesită specificarea numărului de clustere</li>
+                                <li>Poate găsi clustere de forme arbitrare</li>
+                                <li>Robustă la outliers</li>
+                                <li>Identifică zgomotul</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Sensibilă la parametri eps și min_samples</li>
+                                <li>Dificultăți cu densități variabile</li>
+                                <li>Performanță slabă în dimensiuni mari</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🎲 Expectation-Maximization (EM)</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>EM este un algoritm iterativ pentru găsirea estimărilor de maximum likelihood în modele cu variabile latente, folosit pentru clustering probabilistic.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Pașii Algoritmului</h4>
+                        <ul>
+                            <li><strong>E-step:</strong> calculează probabilitățile de apartenență</li>
+                            <li><strong>M-step:</strong> actualizează parametrii distribuțiilor</li>
+                            <li>Repetă până la convergență</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Gaussian Mixture Models:</strong> EM este frecvent folosit cu GMM pentru a modela date ca amestec de distribuții Gaussiene.
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🗺️ Self-Organizing Maps (SOM)</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>SOM este o rețea neurală nesupervizată care mapează date multidimensionale pe o grilă 2D, păstrând topologia datelor originale.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Caracteristici</h4>
+                        <ul>
+                            <li>Învățare competitivă între neuroni</li>
+                            <li>Vecinătăți topologice pe grilă</li>
+                            <li>Reducere de dimensionalitate</li>
+                            <li>Vizualizare intuitivă</li>
+                        </ul>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Vizualizare excelentă</li>
+                                <li>Păstrează topologia</li>
+                                <li>Robustă la zgomot</li>
+                                <li>Interpretabilitate bună</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Computațional intensivă</li>
+                                <li>Mulți hiperparametri</li>
+                                <li>Greu de ales dimensiunea grilei</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task 5: Outlier Detection -->
+        <div id="task5" class="task-content">
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>📊 Metode Univariate</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Metodele univariate detectează outliers analizând fiecare variabilă individual, folosind statistici descriptive simple.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Tehnici Principale</h4>
+                        <ul>
+                            <li><strong>Z-Score:</strong> |z| > 3 (medie ± k*deviația standard)</li>
+                            <li><strong>Regula IQR:</strong> Q1 - 1.5*IQR sau Q3 + 1.5*IQR</li>
+                            <li><strong>Modified Z-Score:</strong> folosește mediana în loc de medie</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-snippet">
+# Python - Detectare outliers cu IQR
+Q1 = df.quantile(0.25)
+Q3 = df.quantile(0.75)
+IQR = Q3 - Q1
+outliers = (df < Q1 - 1.5*IQR) | (df > Q3 + 1.5*IQR)
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Simplu de implementat</li>
+                                <li>Rapid de calculat</li>
+                                <li>Ușor de interpretat</li>
+                                <li>Funcționează bine pe date 1D</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Ignoră corelațiile între variabile</li>
+                                <li>Multe false pozitive în dimensiuni mari</li>
+                                <li>Sensibil la distribuția datelor</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>📏 Distanța Mahalanobis</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Distanța Mahalanobis măsoară distanța unui punct față de distribuția multivariată, luând în considerare corelațiile dintre variabile.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Formula</h4>
+                        <p>MD = √[(x - μ)ᵀ Σ⁻¹ (x - μ)]</p>
+                        <ul>
+                            <li><strong>x:</strong> punctul analizat</li>
+                            <li><strong>μ:</strong> centrul distribuției</li>
+                            <li><strong>Σ:</strong> matricea de covarianță</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Prag:</strong> Punctele cu distanța Mahalanobis > χ²(p, α) sunt considerate outliers, unde p = numărul de dimensiuni.
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🎯 Local Outlier Factor (LOF)</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>LOF identifică outliers pe baza densității locale a unui punct comparativ cu densitatea vecinilor săi.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Concepte Cheie</h4>
+                        <ul>
+                            <li><strong>k-distance:</strong> distanța către al k-lea vecin</li>
+                            <li><strong>Reachability distance:</strong> distanța ajustată pentru densitate</li>
+                            <li><strong>LRD:</strong> densitatea locală de accesibilitate</li>
+                            <li><strong>LOF:</strong> raportul dintre LRD-ul punctului și LRD-ul vecinilor</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Interpretare:</strong> LOF ≈ 1 → punct normal; LOF >> 1 → outlier; LOF < 1 → punct în regiune densă.
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Detectează outliers locale</li>
+                                <li>Nu assume o distribuție specifică</li>
+                                <li>Funcționează cu clustere de densități diferite</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Computațional intensiv</li>
+                                <li>Sensibil la alegerea lui k</li>
+                                <li>Performanță slabă în dimensiuni mari</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🌲 Isolation Forest</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Isolation Forest detectează outliers prin "izolarea" punctelor în arbori binari aleatori. Outliers necesită mai puține împărțiri pentru a fi izolați.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Principiul</h4>
+                        <ul>
+                            <li>Construiește mulți arbori de izolare aleatori</li>
+                            <li>Calculează adâncimea medie de izolare pentru fiecare punct</li>
+                            <li>Punctele cu adâncime mică sunt outliers</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-snippet">
+# Python - Isolation Forest
+from sklearn.ensemble import IsolationForest
+iso_forest = IsolationForest(contamination=0.1, random_state=42)
+outliers = iso_forest.fit_predict(X)
+# -1 = outlier, 1 = inlier
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Scalabil pentru seturi mari</li>
+                                <li>Nu necesită distanțe</li>
+                                <li>Funcționează bine în dimensiuni mari</li>
+                                <li>Implementare simplă</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Sensibil la features irelevante</li>
+                                <li>Performanță slabă cu date normale foarte împrăștiate</li>
+                                <li>Greu de interpretat rezultatele</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <div class="algorithm-header" onclick="toggleCard(this)">
+                    <h3>🧠 Autoencoders</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="algorithm-content">
+                    <div class="algorithm-section">
+                        <h4>Descriere</h4>
+                        <p>Autoencoders sunt rețele neuronale care învață să comprime și să reconstruiască datele. Outliers au erori mari de reconstrucție.</p>
+                    </div>
+
+                    <div class="algorithm-section">
+                        <h4>Arhitectura</h4>
+                        <ul>
+                            <li><strong>Encoder:</strong> comprimă datele într-o reprezentare latentă</li>
+                            <li><strong>Bottleneck:</strong> dimensiunea redusă (compression)</li>
+                            <li><strong>Decoder:</strong> reconstruiește datele originale</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Outlier Detection:</strong> Punctele cu eroare de reconstrucție mare (MSE) sunt considerate outliers.
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Avantaje</h4>
+                            <ul>
+                                <li>Foarte puternic pentru date complexe</li>
+                                <li>Poate învăța reprezentări non-liniare</li>
+                                <li>Funcționează cu orice tip de date</li>
+                                <li>Scalabil</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Dezavantaje</h4>
+                            <ul>
+                                <li>Necesită multe date pentru antrenare</li>
+                                <li>Computațional intensiv</li>
+                                <li>Mulți hiperparametri</li>
+                                <li>Greu de interpretat</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Data Mining Algorithms Guide | Creat pentru studierea algoritmilor de analiză a datelor</p>
+        <p>📧 Contact: <a href="https://discord.gg/RD5BY2nn" style="color: #3498db;">Discord Server</a></p>
+    </div>
+
+    <script>
+        // Funcție pentru schimbarea între task-uri
+        function showTask(taskId) {
+            // Ascunde toate task-urile
+            const allTasks = document.querySelectorAll('.task-content');
+            allTasks.forEach(task => {
+                task.classList.remove('active');
+            });
+
+            // Arată task-ul selectat
+            document.getElementById(taskId).classList.add('active');
+
+            // Actualizează tab-urile active
+            const allTabs = document.querySelectorAll('.nav-tab');
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Găsește și activează tab-ul corespunzător
+            const clickedTab = event.target;
+            clickedTab.classList.add('active');
+        }
+
+        // Funcție pentru expandarea/contractarea cardurilor
+        function toggleCard(headerElement) {
+            const card = headerElement.parentElement;
+            card.classList.toggle('expanded');
+        }
+
+        // Inițializează prima card din fiecare task ca fiind expandată
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstCards = document.querySelectorAll('.task-content .algorithm-card:first-child');
+            firstCards.forEach(card => {
+                card.classList.add('expanded');
+            });
+        });
+
+        // Adaugă smooth scrolling pentru o experiență mai bună
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Adaugă efect de hover pentru carduri
+        document.querySelectorAll('.algorithm-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Adaugă search functionality (opțional)
+        function searchAlgorithms() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.algorithm-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.algorithm-header h3').textContent.toLowerCase();
+                const content = card.querySelector('.algorithm-content').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
